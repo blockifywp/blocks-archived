@@ -1,0 +1,41 @@
+.blockify-icon {
+	display: flex;
+	justify-content: center;
+	flex-wrap: nowrap;
+	margin: 0 !important;
+}
+
+.blockify-icon-container {
+	margin-left: auto;
+	margin-right: auto;
+
+	&.items-justified-center {
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	&.items-justified-left {
+		margin-left: 0;
+	}
+
+	&.items-justified-right {
+		margin-right: 0;
+	}
+}
+
+.blockify-icon-mask {
+	display: block;
+	height: 100%;
+	width: 100%;
+	-webkit-mask-position: center;
+	-webkit-mask-repeat: no-repeat;
+	-webkit-mask-size: cover !important;
+
+	.flip-horizontal & {
+		transform: rotateY(180deg);
+	}
+
+	.flip-vertical & {
+		transform: rotateX(180deg);
+	}
+}

@@ -1,0 +1,92 @@
+.wp-block-blockify-tabs {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-start;
+
+	&.orientation-vertical.justify-left,
+	&.orientation-vertical.justify-right {
+		flex-wrap: nowrap;
+		justify-content: space-between;
+	}
+
+	&.orientation-vertical.justify-right {
+		flex-direction: row-reverse;
+	}
+}
+
+.blockify-tabs-nav {
+	display: flex;
+	align-items: center;
+	justify-content: inherit;
+	width: 100%;
+	gap: inherit;
+	border-bottom: inherit;
+	border-radius: inherit;
+
+	.orientation-vertical & {
+		flex-direction: column;
+		flex-wrap: wrap;
+		border-bottom: 0;
+	}
+
+	.orientation-vertical.justify-left &,
+	.orientation-vertical.justify-right & {
+		// TODO: Vertical styles.
+	}
+}
+
+.blockify-tab-title {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+	line-height: 1;
+	text-decoration: none;
+	height: 100%;
+	z-index: 1;
+	padding: var(--tab-padding-top, 1em) var(--tab-padding-right, 1em) var(--tab-padding-bottom, 1em) var(--tab-padding-left, 1em);
+	border-radius: inherit;
+	background: var(--tab-link-background-color);
+	color: var(--tab-link-color, inherit);
+	transition: all var(--wp--custom--transition);
+
+	&:hover,
+	&:focus,
+	&.active {
+		background: var(--tab-link-background-color-active);
+		color: var(--tab-link-color-active, inherit);
+	}
+
+	.justify-left &:first-of-type,
+	.justify-space-between &:first-of-type {
+		border-left: 0;
+	}
+
+	.orientation-vertical & {
+		width: 100%;
+		border: 0;
+
+		&:first-of-type {
+			border-top: 0;
+		}
+	}
+
+	.orientation-vertical.justify-left & {
+	}
+
+	.orientation-vertical.justify-right & {
+	}
+}
+
+.blockify-tab-content {
+	width: 100%;
+	margin: 0 !important;
+	padding: var(--tab-padding-top, 1em) var(--tab-padding-right, 1em) var(--tab-padding-bottom, 1em) var(--tab-padding-left, 1em);
+	border-radius: var(--tab-link-border-radius, var(--wp--custom--border--radius));
+
+	.orientation-vertical.justify-left & {
+	}
+
+	.orientation-vertical.justify-right & {
+	}
+}

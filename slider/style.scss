@@ -1,0 +1,77 @@
+@import "../../../node_modules/@glidejs/glide/dist/css/glide.core.css";
+@import "../../../node_modules/@glidejs/glide/dist/css/glide.theme.css";
+
+.wp-block-blockify-slider,
+.wp-block-blockify-slide {
+	max-width: 100%;
+}
+
+.glide {
+	position: relative;
+	margin-bottom: var(--wp--style--block-gap, 1em);
+	gap: 0 !important;
+	width: 100vw !important;
+}
+
+.glide__track {
+	width: 100%;
+	overflow: hidden;
+}
+
+.glide__slides {
+	display: flex;
+	gap: 0;
+}
+
+.glide__arrow {
+	position: absolute;
+	top: calc(50% - 0.5em);
+	display: block;
+	padding: 0;
+	box-shadow: none;
+	font-size: 51px;
+	background: currentColor;
+	color: currentColor;
+	letter-spacing: -1em;
+	width: 1em;
+	height: 1em;
+}
+
+.glide__arrow--left {
+	left: -1em;
+	mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='m14.6 7-1.2-1L8 12l5.4 6 1.2-1-4.6-5z'/></svg>");
+	-webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='m14.6 7-1.2-1L8 12l5.4 6 1.2-1-4.6-5z'/></svg>");
+}
+
+.glide__arrow--right {
+	right: -1em;
+	mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M10.6 6 9.4 7l4.6 5-4.6 5 1.2 1 5.4-6z'/></svg>");
+	-webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M10.6 6 9.4 7l4.6 5-4.6 5 1.2 1 5.4-6z'/></svg>");
+}
+
+.glide__bullets {
+	position: absolute;
+	bottom: calc(0px - var(--wp--style--block-gap, 1em));
+	display: flex;
+	width: 100%;
+	justify-content: center;
+}
+
+.glide__bullet {
+	background: currentColor;
+	box-shadow: none;
+	border-radius: 1em;
+	border: 0;
+	color: inherit;
+	height: 8px;
+	width: 8px;
+	padding: 0;
+	opacity: 1;
+	margin: 4px;
+	transition: opacity var(--wp--custom--transition) ease;
+}
+
+.glide__bullet--active {
+	opacity: 0.333;
+}
+

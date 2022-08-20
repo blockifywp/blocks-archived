@@ -1,0 +1,67 @@
+.wp-block-blockify-newsletter {
+	display: flex;
+	width: 100%;
+}
+
+.blockify-form-input {
+	display: block;
+	width: 100%;
+}
+
+.wp-block-blockify-newsletter .wp-block.blockify-form-field {
+	display: flex;
+	align-self: stretch;
+	flex: 1;
+	margin: 0 !important;
+	padding: 0 !important;
+	border: 0 !important;
+	background-color: transparent !important;
+}
+
+.wp-block-blockify-submit {
+
+	.wp-block-button__link {
+		width: 100%;
+	}
+}
+
+.blockify-form-field {
+	position: relative;
+	flex: 1;
+
+	svg {
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 1em;
+		height: 1em;
+		width: 1em;
+		margin: auto;
+	}
+}
+
+svg + .blockify-form-input {
+	text-indent: 2em;
+}
+
+
+
+.width-25 {
+	width: 25%;
+}
+
+.width-50 {
+	width: 50%;
+}
+
+.width-75 {
+	width: 75%;
+}
+
+.width-100 {
+	width: 100%;
+}
+
+.width-auto {
+	width: auto;
+}

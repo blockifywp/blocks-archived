@@ -1,0 +1,11 @@
+@import 'style';
+
+.glide__slides .block-list-appender {
+	display: none;
+	width: 0 !important;
+}
+
+.glide__slide--clone {
+	pointer-events: none;
+	opacity: .333;
+}

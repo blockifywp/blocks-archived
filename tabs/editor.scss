@@ -1,0 +1,174 @@
+.editor-styles-wrapper div.wp-block-blockify-tabs {
+	position: relative;
+	display: flex;
+	z-index: 1;
+	height: 100%;
+	align-items: flex-start;
+
+	&:before {
+		content: '';
+		position: absolute;
+		display: block;
+		width: 100%;
+		height: 1px;
+		top: 3em;
+		border-top: inherit;
+	}
+
+	[data-align="left"] & {
+		justify-content: flex-start;
+	}
+
+	[data-align="center"] & {
+		justify-content: center;
+	}
+
+	[data-align="right"] & {
+		justify-content: flex-end;
+	}
+
+	&.orientation-horizontal {
+		align-items: flex-start !important;
+	}
+
+	&.orientation-vertical {
+		justify-content: flex-start !important;
+	}
+
+	&.orientation-vertical.justify-center {
+		height: auto;
+	}
+}
+
+.wp-block-blockify-tab {
+	display: inline-block;
+	position: static !important;
+	padding: 0 !important;
+	border-radius: inherit;
+
+	+ .block-list-appender {
+		top: 1em;
+		right: 1em;
+	}
+
+	&.is-selected,
+	&.has-child-selected,
+	[data-type="blockify/tabs"]:not(.has-child-selected, .is-selected) &:first-of-type {
+		z-index: 1;
+	}
+
+	&.is-selected,
+	&.has-child-selected,
+	[data-type="blockify/tabs"]:not(.has-child-selected) &:first-of-type {
+		z-index: 1;
+
+
+		.blockify-tabs-title {
+
+		}
+
+		.orientation-vertical.justify-left &,
+		.orientation-vertical.justify-right & {
+
+			.blockify-tabs-title {
+
+			}
+		}
+	}
+
+	.justify-left > &:first-of-type,
+	.justify-space-between > &:first-of-type {
+		border-left: 0 !important;
+	}
+
+	.justify-right > &:last-of-type {
+		border-right: 0;
+	}
+
+	.orientation-vertical.justify-center & {
+		min-width: 100%;
+
+		.blockify-tabs-title {
+			margin-bottom: 0;
+		}
+	}
+
+	.tab-width-stretch & {
+		flex: 1;
+
+		&:first-of-type {
+			border-left: 0;
+		}
+
+		&:last-of-type {
+			border-right: 0;
+		}
+	}
+
+	.tab-width-fixed & {
+
+	}
+
+	.orientation-vertical & {
+		margin-bottom: 0;
+		border-left: 0 !important;
+		border-right: 0 !important;
+
+	}
+
+	.orientation-vertical.justify-left.tab-width-stretch &:last-of-type,
+	.orientation-vertical.justify-right.tab-width-stretch &:last-of-type {
+		border-bottom: 0;
+	}
+}
+
+.blockify-tab-title {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border: 0;
+	width: 100%;
+	height: 100%;
+	text-decoration: none;
+	text-align: center;
+	z-index: 1;
+
+	&:focus {
+		box-shadow: none;
+		outline: none;
+	}
+}
+
+.blockify-tab-content {
+	position: absolute;
+	left: 0;
+	display: none;
+	width: 100%;
+
+	[data-type="blockify/tab"].is-selected &,
+	[data-type="blockify/tab"].has-child-selected &,
+	[data-type="blockify/tabs"]:not(.has-child-selected) [data-type="blockify/tab"]:first-of-type & {
+		display: block;
+	}
+
+	.orientation-vertical & {
+		border: 0;
+		top: 0;
+	}
+
+	.orientation-vertical.justify-left & {
+		right: 0;
+	}
+
+	.orientation-vertical.justify-right & {
+		left: 0;
+	}
+
+	.orientation-vertical.justify-center & {
+		height: auto;
+		top: 100%;
+	}
+}
+
+

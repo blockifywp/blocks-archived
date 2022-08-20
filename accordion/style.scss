@@ -1,0 +1,85 @@
+$defaultSpacing: 1.5em;
+$border: var(--accordion--border-width) var(--accordion--border-style, solid) var(--accordion--border-color);
+
+@mixin accordion-padding {
+	padding: var(--accordion--padding-top, $defaultSpacing) calc(1em + var(--accordion--padding-right, $defaultSpacing)) var(--accordion--padding-bottom, $defaultSpacing) var(--accordion--padding-left, $defaultSpacing)
+}
+
+.wp-block-blockify-accordion {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--accordion--gap);
+	padding: 0 !important;
+	border: 0 !important;
+	background-color: transparent !important;
+}
+
+.wp-block-blockify-accordion-item {
+	width: 100%;
+	background: var(--accordion--background);
+	border-radius: var(--accordion--border-radius);
+	border: $border;
+
+	&:not(:first-of-type) {
+		margin-top: calc(0px - var(--accordion--border-width));
+	}
+
+	[data-stack="true"] & {
+
+		&:not(:first-of-type) {
+			border-top-left-radius: 0;
+			border-top-right-radius: 0;
+		}
+
+		&:not(:last-of-type) {
+			border-bottom-left-radius: 0;
+			border-bottom-right-radius: 0;
+		}
+	}
+}
+
+.blockify-accordion-summary {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	position: relative;
+	cursor: pointer;
+
+	@include accordion-padding;
+}
+
+.blockify-accordion-summary::marker {
+	display: none;
+	content: '';
+}
+
+// Vertical.
+.blockify-accordion-summary:after {
+	content: "";
+	display: block;
+	float: right;
+	margin-right: -1em;
+	height: 1.2em;
+	width: 1em;
+	background: currentColor;
+	color: inherit;
+	-webkit-mask-position: center;
+	-webkit-mask-repeat: no-repeat;
+	-webkit-mask-size: 1em;
+	-webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xml:space='preserve' version='1.0' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='%23000' stroke-miterlimit='10' stroke-width='2' d='M12 19V5m-7 7h14'/%3E%3C/svg%3E");
+}
+
+.wp-block-blockify-accordion-item[open] .blockify-accordion-summary::after {
+	-webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xml:space='preserve' viewBox='0 0 14 14'%3E%3Cpath fill='none' stroke='%23000' stroke-miterlimit='10' stroke-width='2' d='M0 6.9h14'/%3E%3C/svg%3E");
+	-webkit-mask-size: .6em;
+}
+
+.wp-block-blockify-accordion-item[open] .blockify-accordion-summary {
+	border-bottom: $border;
+}
+
+.blockify-accordion-content {
+	display: block;
+
+	@include accordion-padding;
+}
