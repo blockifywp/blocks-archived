@@ -33,7 +33,7 @@ export const fields = [
         type: 'text',
         label: __( 'First name', 'blockify' ),
         description: __( 'Displays a first name input field.', 'blockify' ),
-        placeholder: __( 'Enter name', 'blockify' ),
+        placeholder: __( 'First name', 'blockify' ),
         icon: 'admin-users',
     },
     {
@@ -41,7 +41,7 @@ export const fields = [
         type: 'text',
         label: __( 'Last name', 'blockify' ),
         description: __( 'Displays a last name input field.', 'blockify' ),
-        placeholder: __( 'Enter name', 'blockify' ),
+        placeholder: __( 'Last name', 'blockify' ),
         icon: 'admin-users',
     },
     {
@@ -62,7 +62,7 @@ export const fields = [
         type: 'url',
         label: __( 'URL', 'blockify' ),
         description: __( 'Displays a website URL input field.', 'blockify' ),
-        placeholder: __( '', 'blockify' ),
+        placeholder: __( 'https://example.com/', 'blockify' ),
         icon: 'admin-links',
         keywords: [
             __( 'Website', 'blockify' ),
@@ -108,7 +108,7 @@ export const fields = [
         label: __( 'Text Area', 'blockify' ),
         description: __( 'Displays a custom text area field.', 'blockify' ),
         placeholder: __( 'Leave a message', 'blockify' ),
-        icon: button,
+        icon: button
     },
 ];
 
@@ -152,16 +152,14 @@ const attributes = {
     style: {
         type: 'object',
         default: {
-            color: {
-                background: 'var(--wp--preset--color--white)'
-            },
             spacing: {
                 padding: {
                     top: '1em',
                     right: '1em',
                     bottom: '1em',
                     left: '1em',
-                }
+                },
+                blockGap: '1em'
             },
             border: {
                 color: 'var(--wp--custom--border--color)',
@@ -264,11 +262,11 @@ const Edit = ( props, field ) => {
         };
     }, [] );
 
-    if ( 'font-awesome-regular' in icons ) {
-        setAttributes( {
-            icon: icons['font-awesome-regular']['envelope']
-        } );
-    }
+    setAttributes( {
+        icon: icons?.['social']?.['mail']
+    } );
+
+    const rows = 'textarea' === field.type ? { rows: 6 } : {};
 
     return (
         <>
@@ -278,9 +276,9 @@ const Edit = ( props, field ) => {
                         <ToggleControl
                             label={ __( 'Show Label', 'blockify' ) }
                             checked={ showLabel }
-                            onChange={ val => {
+                            onChange={ value => {
                                 setAttributes( {
-                                    showLabel: val
+                                    showLabel: value
                                 } );
                             } }
                         />
@@ -290,9 +288,9 @@ const Edit = ( props, field ) => {
 						  <ToggleControl
 							  label={ field.secondary + __( ' field', 'blockify' ) }
 							  checked={ showSecondary }
-							  onChange={ val => {
+							  onChange={ value => {
                                   setAttributes( {
-                                      showSecondary: val
+                                      showSecondary: value
                                   } );
                               } }
 						  />
@@ -302,9 +300,9 @@ const Edit = ( props, field ) => {
                         <ToggleControl
                             label={ __( 'Show icon', 'blockify' ) }
                             checked={ showIcon }
-                            onChange={ val => {
+                            onChange={ value => {
                                 setAttributes( {
-                                    showIcon: val
+                                    showIcon: value
                                 } );
                             } }
                         />
@@ -313,9 +311,9 @@ const Edit = ( props, field ) => {
                         <ToggleControl
                             label={ __( 'Required', 'blockify' ) }
                             checked={ isRequired }
-                            onChange={ ( val ) => {
+                            onChange={ value => {
                                 setAttributes( {
-                                    isRequired: val
+                                    isRequired: value
                                 } );
                             } }
                         />
@@ -340,8 +338,8 @@ const Edit = ( props, field ) => {
 					  className={ 'blockify-form-label' }
 					  htmlFor={ field.name }
 					  value={ ( attributes.label ?? field.label ) + ( attributes.isRequired ? '*' : '' ) }
-					  onChange={ ( val ) => setAttributes( {
-                          label: val
+					  onChange={ value => setAttributes( {
+                          label: value
                       } ) }
 				  />
                 }
@@ -361,9 +359,10 @@ const Edit = ( props, field ) => {
                         'core/italic'
                     ] }
                     value={ placeholder ?? field.placeholder }
-                    onChange={ val => setAttributes( {
-                        placeholder: val
+                    onChange={ value => setAttributes( {
+                        placeholder: value
                     } ) }
+                    { ...rows }
                 />
                 { ( field?.secondary && showSecondary ) &&
 				  <RichText
@@ -377,8 +376,8 @@ const Edit = ( props, field ) => {
                           'core/bold',
                           'core/italic'
                       ] }
-					  onChange={ ( val ) => setAttributes( {
-                          secondary: val
+					  onChange={ value => setAttributes( {
+                          secondary: value
                       } ) }
 				  />
                 }
@@ -399,16 +398,23 @@ const Save = ( props, field ) => {
               placeholder,
               style
           }              = attributes;
-    const blockProps     = {
+
+    let blockProps = {
         ...useBlockProps.save(),
         'data-showlabel': showLabel,
         'data-required': isRequired,
-        'data-placeholder': placeholder,
         tagName: 'textarea' === field.type ? 'textarea' : 'input',
         type: field.type,
         name: field?.label,
-        placeholder: placeholder,
+        placeholder: placeholder.replace(/<\/?[^>]+(>|$)/g, ""),
     };
+
+    if ( attributes?.minHeight ) {
+        blockProps.style = {
+            ...blockProps.style,
+            minHeight: attributes.minHeight
+        };
+    }
 
     return (
         <>
@@ -459,8 +465,8 @@ fields.forEach( field => {
             title: field.label,
             description: field.description,
             icon: field.icon,
-            category: 'blockify-newsletter',
-            parent: [ 'blockify/newsletter' ],
+            category: 'blockify-form',
+            parent: [ 'blockify/form' ],
             keywords: field?.keywords ? [
                 ...defaultKeywords,
                 ...field.keywords

@@ -22,9 +22,9 @@ registerBlockType( 'blockify/checkbox', {
     title: __( 'Checkbox', 'blockify' ),
     description: __( 'Displays a checkbox field', 'blockify' ),
     icon: icon,
-    category: 'blockify-newsletter',
+    category: 'blockify-form',
     parent: [
-        'blockify/newsletter'
+        'blockify/form'
     ],
     keywords: [
         __( 'Terms', 'blockify' ),

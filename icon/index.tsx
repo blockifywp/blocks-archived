@@ -16,6 +16,7 @@ import {
     __experimentalUnitControl as UnitControl
 } from '@wordpress/components';
 import {
+    starEmpty,
     flipHorizontal as flipHorizontalIcon,
     flipVertical as flipVerticalIcon,
 } from '@wordpress/icons';
@@ -56,6 +57,7 @@ const getContainerClasses = attributes => {
 }
 
 registerBlockType( metadata, {
+    icon: starEmpty,
     edit: ( { attributes, setAttributes } ) => {
         const blockProps                = useBlockProps();
         const { style: containerStyle } = blockProps;

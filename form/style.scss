@@ -1,4 +1,4 @@
-.wp-block-blockify-newsletter {
+.wp-block-blockify-form {
 	display: flex;
 	width: 100%;
 }
@@ -6,16 +6,8 @@
 .blockify-form-input {
 	display: block;
 	width: 100%;
-}
-
-.wp-block-blockify-newsletter .wp-block.blockify-form-field {
-	display: flex;
-	align-self: stretch;
-	flex: 1;
-	margin: 0 !important;
-	padding: 0 !important;
-	border: 0 !important;
-	background-color: transparent !important;
+	max-width: 100%; // For text areas.
+	color: inherit;
 }
 
 .wp-block-blockify-submit {
@@ -27,6 +19,7 @@
 
 .blockify-form-field {
 	position: relative;
+	width: 100%;
 	flex: 1;
 
 	svg {
@@ -43,8 +36,6 @@
 svg + .blockify-form-input {
 	text-indent: 2em;
 }
-
-
 
 .width-25 {
 	width: 25%;

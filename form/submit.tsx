@@ -16,10 +16,10 @@ registerBlockType( 'blockify/submit', {
     title: __( 'Submit', 'blockify' ),
     description: __( 'Displays a submit button', 'blockify' ),
     icon: 'button',
-    category: 'blockify-newsletter',
+    category: 'blockify-form',
     className: 'wp-block-blockify-submit',
     parent: [
-        'blockify/newsletter'
+        'blockify/form'
     ],
     keywords: [
         __( 'Form', 'blockify' ),
@@ -57,7 +57,7 @@ registerBlockType( 'blockify/submit', {
     attributes: {
         value: {
             type: 'string',
-            default: __( 'Subscribe', 'blockify' )
+            default: __( 'Submit', 'blockify' )
         },
         width: {
             type: 'string',
