@@ -1,6 +1,10 @@
 .wp-block-blockify-form {
 	display: flex;
 	width: 100%;
+
+	.wp-block-columns {
+		width: 100%;
+	}
 }
 
 .blockify-form-input {
@@ -55,4 +59,18 @@ svg + .blockify-form-input {
 
 .width-auto {
 	width: auto;
+}
+
+#g-recaptcha-response {
+	display: block !important;
+	position: absolute;
+	margin: -78px 0 0 0 !important;
+	width: 302px !important;
+	height: 76px !important;
+	z-index: -999999;
+	opacity: 0;
+}
+
+.blockify-success {
+	text-align: var(--wp--custom--form-success--text-align, center);
 }

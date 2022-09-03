@@ -109,9 +109,9 @@ registerBlockType( 'blockify/checkbox', {
                             <ToggleControl
                                 label={ __( 'Required', 'blockify' ) }
                                 checked={ attributes.isRequired }
-                                onChange={ ( val ) => {
+                                onChange={ value => {
                                     setAttributes( {
-                                        isRequired: val
+                                        isRequired: value
                                     } );
                                 } }
                             />
@@ -136,8 +136,8 @@ registerBlockType( 'blockify/checkbox', {
                         tagName={ 'span' }
                         value={ attributes.label }
                         htmlFor={ attributes.id }
-                        onChange={ ( val ) => setAttributes( {
-                            label: val
+                        onChange={ value => setAttributes( {
+                            label: value
                         } ) }
                     />
                 </div>

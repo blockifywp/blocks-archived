@@ -2,14 +2,19 @@ import { __ } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
 import { RichText } from '@wordpress/block-editor';
 import {
-    PanelBody
+    PanelBody,
+    PanelRow,
+    ToggleControl,
+    TextControl,
 } from '@wordpress/components';
 import {
     InspectorControls,
     useBlockProps
 } from '@wordpress/block-editor';
 import { useState } from '@wordpress/element';
-import WidthControl from "./width-control";
+import WidthControl from "../../../components/width-control";
+
+const recaptchaSiteKey = window?.['blockify']?.['googleRecaptcha'] ?? null;
 
 registerBlockType( 'blockify/submit', {
     apiVersion: 2,
@@ -37,7 +42,9 @@ registerBlockType( 'blockify/submit', {
         },
         typography: {
             fontSize: true,
+            fontWeight: true,
             lineHeight: true,
+            textTransform: true,
         },
         spacing: {
             margin: true,
@@ -64,7 +71,14 @@ registerBlockType( 'blockify/submit', {
             default: 'auto'
         },
         textAlign: {
-            type: "string"
+            type: 'string'
+        },
+        recaptcha: {
+            type: 'boolean',
+        },
+        siteKey: {
+            type: 'string',
+            default: 'false'
         }
     },
     edit: ( { attributes, setAttributes } ) => {
@@ -72,6 +86,8 @@ registerBlockType( 'blockify/submit', {
         const [ width, setWidth ] = useState( attributes.width );
         const classArray          = blockProps.className.split( ' ' );
         let classString           = '';
+
+        const { apiKey } = attributes;
 
         classArray.forEach( classItem => {
             if ( ! classItem.includes( '-color' ) ) {
@@ -84,30 +100,69 @@ registerBlockType( 'blockify/submit', {
             width: attributes?.width
         }
 
+        blockProps['data-sitekey']  = recaptchaSiteKey;
+        blockProps['data-callback'] = 'onSubmit';
+        blockProps['data-action']   = 'submit';
+
+        let classNames = [
+            blockProps.className,
+            'wp-block-button__link',
+            'wp-element-button'
+        ];
+
+        if ( recaptchaSiteKey && attributes?.recaptcha ) {
+            classNames.push( 'g-recaptcha' );
+        }
+
+        blockProps.className = classNames.join( ' ' );
+
         return (
             <>
                 <InspectorControls key="settings">
-                    <PanelBody title={ __( 'Width settings', 'blockify' ) }>
-
-                        <WidthControl
-                            width={ width }
-                            setWidth={ setWidth }
-                            label={ __( 'Button width', 'blockify' ) }
-                            onClick={ key => {
-                                if ( key === width ) {
-                                    setAttributes( { width: 'auto' } );
-                                } else {
-                                    setAttributes( { width: key } );
-                                }
-                            } }
-                        />
-
+                    <PanelBody title={ __( 'Submit settings', 'blockify' ) }>
+                        <PanelRow>
+                            <WidthControl
+                                label={ __( 'Button width', 'blockify' ) }
+                                width={ width }
+                                setWidth={ setWidth }
+                                onClick={ key => {
+                                    if ( key === width ) {
+                                        setAttributes( { width: 'auto' } );
+                                    } else {
+                                        setAttributes( { width: key } );
+                                    }
+                                } }
+                            />
+                            <br/>
+                        </PanelRow>
+                        <PanelRow>
+                            <ToggleControl
+                                label={ __( 'Enable reCAPTCHA v3', 'blockify' ) }
+                                checked={ attributes?.recaptcha ?? false }
+                                onChange={ val => {
+                                    setAttributes( {
+                                        recaptcha: val
+                                    } );
+                                } }
+                            />
+                        </PanelRow>
+                        { attributes?.recaptcha &&
+						  <PanelRow>
+							  <TextControl
+								  label={ __( 'API Key', 'blockify' ) }
+								  value={ apiKey }
+								  help={ __( 'Enter your Google reCAPTCHA v2 API key to enable the recaptcha field. Get your key here https://google.com/recaptcha/admin/site/', 'blockify' ) }
+								  onChange={ value => setAttributes( {
+                                      apiKey: value,
+                                  } ) }
+							  />
+						  </PanelRow>
+                        }
                     </PanelBody>
                 </InspectorControls>
 
                 <RichText
                     { ...blockProps }
-                    className={ blockProps.className + ' wp-block-button__link wp-element-button' }
                     tagName={ 'div' }
                     value={ attributes?.value }
                     placeholder={ __( 'Submit', 'blockify' ) }
@@ -123,10 +178,16 @@ registerBlockType( 'blockify/submit', {
         const classArray = blockProps.className.split( ' ' );
         let classString  = '';
 
+        const { recaptchaSiteKey } = attributes;
+
         blockProps.style = {
             ...blockProps.style,
             width: attributes?.width
         }
+
+        blockProps['data-sitekey']  = recaptchaSiteKey;
+        blockProps['data-callback'] = 'onSubmit';
+        blockProps['data-action']   = 'submit';
 
         classArray.forEach( classItem => {
             if ( ! classItem.includes( '-color' ) ) {

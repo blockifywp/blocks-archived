@@ -6,6 +6,7 @@ import {
     useInnerBlocksProps
 } from '@wordpress/block-editor';
 import {
+    ToggleControl,
     PanelBody,
     PanelRow,
     __experimentalNumberControl as NumberControl
@@ -25,10 +26,15 @@ registerBlockType( metadata, {
                   attributes,
                   clientId,
                   setAttributes
-              }                               = props;
-        const blockProps                      = useBlockProps();
-        const [ parentBlock, setParentBlock ] = useState( select( 'core/block-editor' ).getBlocksByClientId( clientId )[0] );
-        const innerBlocksProps                = useInnerBlocksProps( blockProps, {
+              }               = props;
+        const {
+                  showArrows,
+                  showDots,
+              }               = attributes;
+        const blockProps      = useBlockProps();
+        const [ parentBlock ] = useState( select( 'core/block-editor' ).getBlocksByClientId( clientId )[0] );
+
+        const innerBlocksProps = useInnerBlocksProps( blockProps, {
             allowedBlocks: [
                 'blockify/slide'
             ],
@@ -95,7 +101,8 @@ registerBlockType( metadata, {
                     >
                         <PanelRow>
                             <NumberControl
-                                label={ __( 'Per View Desktop', 'blockify' ) }
+                                label={ __( 'Per View', 'blockify' ) }
+                                help={ __( 'Number of slides to display in the viewport on desktop.', 'blockify' ) }
                                 onChange={ value => {
                                     setAttributes( {
                                         perView: parseInt( value )
@@ -121,6 +128,25 @@ registerBlockType( metadata, {
                                 max={ 6 }
                                 require={ true }
                             />
+                            <br/>
+                        </PanelRow>
+                        <PanelRow>
+                            <ToggleControl
+                                label={ __( 'Show arrows', 'blockify' ) }
+                                checked={ showArrows ?? false }
+                                onChange={ () => setAttributes( {
+                                    showArrows: ! showArrows
+                                } ) }
+                            />
+                        </PanelRow>
+                        <PanelRow>
+                            <ToggleControl
+                                label={ __( 'Show dots', 'blockify' ) }
+                                checked={ showDots ?? false }
+                                onChange={ () => setAttributes( {
+                                    showDots: ! showDots
+                                } ) }
+                            />
                         </PanelRow>
                     </PanelBody>
                 </InspectorControls>
@@ -130,21 +156,27 @@ registerBlockType( metadata, {
                         { innerBlocksProps.children }
                     </div>
                 </div>
-                <div className="glide__arrows" data-glide-el="controls">
-                    <button className="glide__arrow glide__arrow--left" data-glide-dir="<">{ __( 'Previous', 'blockify' ) }</button>
-                    <button className="glide__arrow glide__arrow--right" data-glide-dir=">">{ __( 'Next', 'blockify' ) }</button>
-                </div>
-                <div className="glide__bullets" data-glide-el="controls[nav]">
 
-                    {
-                        Object.keys( parentBlock.innerBlocks ).map( ( key, index ) =>
-                            <button
-                                className="glide__bullet"
-                                data-glide-dir={ index }
-                            />
-                        )
-                    }
-                </div>
+                { showArrows &&
+				  <div className="glide__arrows" data-glide-el="controls">
+					  <button className="glide__arrow glide__arrow--left" data-glide-dir="<">{ __( 'Previous', 'blockify' ) }</button>
+					  <button className="glide__arrow glide__arrow--right" data-glide-dir=">">{ __( 'Next', 'blockify' ) }</button>
+				  </div>
+                }
+
+                { showDots &&
+				  <div className="glide__bullets" data-glide-el="controls[nav]">
+
+                      {
+                          Object.keys( parentBlock.innerBlocks ).map( ( key, index ) =>
+                              <button
+                                  className="glide__bullet"
+                                  data-glide-dir={ index }
+                              />
+                          )
+                      }
+				  </div>
+                }
 
             </div>
         );
@@ -153,7 +185,7 @@ registerBlockType( metadata, {
         const blockProps       = useBlockProps.save();
         const innerBlocksProps = useInnerBlocksProps.save();
 
-        const { clientId } = attributes;
+        const { clientId, showArrows, showDots } = attributes;
 
         return (
             <div { ...blockProps } className={ blockProps.className + ' glide' } id={ blockProps?.id ?? 'block-' + clientId }>
@@ -163,20 +195,26 @@ registerBlockType( metadata, {
                         { innerBlocksProps.children }
                     </div>
                 </div>
-                <div className="glide__arrows" data-glide-el="controls">
-                    <button className="glide__arrow glide__arrow--left" data-glide-dir="<">‹</button>
-                    <button className="glide__arrow glide__arrow--right" data-glide-dir=">">›</button>
-                </div>
-                <div className="glide__bullets" data-glide-el="controls[nav]">
-                    {
-                        [ 1, 2, 3 ].map( ( key, index ) =>
-                            <button
-                                className="glide__bullet"
-                                data-glide-dir={ index }
-                            />
-                        )
-                    }
-                </div>
+
+                { showArrows &&
+				  <div className="glide__arrows" data-glide-el="controls">
+					  <button className="glide__arrow glide__arrow--left" data-glide-dir="<">‹</button>
+					  <button className="glide__arrow glide__arrow--right" data-glide-dir=">">›</button>
+				  </div>
+                }
+
+                { showDots &&
+				  <div className="glide__bullets" data-glide-el="controls[nav]">
+                      {
+                          [ 1, 2, 3 ].map( ( key, index ) =>
+                              <button
+                                  className="glide__bullet"
+                                  data-glide-dir={ index }
+                              />
+                          )
+                      }
+				  </div>
+                }
 
             </div>
         );

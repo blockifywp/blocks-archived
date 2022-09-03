@@ -10,3 +10,11 @@
 	border: 0 !important;
 	background-color: transparent !important;
 }
+
+.blockify-form-input {
+	// Match .wp-element-button workaround.
+	padding: var(--wp--custom--button--padding-top, 1em) var(--wp--custom--button--padding-right, 1.5em) var(--wp--custom--button--padding-bottom, 1em) var(--wp--custom--button--padding-left, 1.5em);
+	border: var(--wp--custom--border, 1px solid #eee);
+	border-radius: var(--wp--custom--button--border-radius, inherit);
+	font-size: var(--wp--custom--button--font-size);
+}

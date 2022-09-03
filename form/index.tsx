@@ -16,12 +16,11 @@ import {
     TextareaControl
 } from '@wordpress/components';
 import apiFetch from '@wordpress/api-fetch';
-import { createBlock } from '@wordpress/blocks';
-import { dispatch } from '@wordpress/data';
 import metadata from './block.json';
-import './field.tsx';
-import './checkbox.tsx';
-import './submit.tsx';
+import './fields/input.tsx';
+import './fields/checkbox.tsx';
+import './fields/submit.tsx';
+import './fields/recaptcha.tsx';
 import './editor.scss';
 
 const mail = () => parse(
@@ -36,6 +35,8 @@ const template = [
 ];
 
 const allowedBlocks = [
+    'core/columns',
+    'core/paragraph',
     'blockify/email',
     'blockify/checkbox',
     'blockify/first-name',

@@ -12,10 +12,11 @@ import {
     useBlockProps
 } from '@wordpress/block-editor';
 import { button } from '@wordpress/icons';
-import iconMetadata from '../../blocks/icon/block.json';
+import { useState } from '@wordpress/element';
+import iconMetadata from '../../../blocks/icon/block.json';
 import parse from "html-react-parser";
 
-const toKebabCase = ( string ): string => {
+const toKebabCase = string => {
     return string.replaceAll( ' ', '-' ).toLowerCase();
 }
 
@@ -23,6 +24,7 @@ export const fields = [
     {
         name: '[]meta_input',
         type: 'text',
+        slug: 'custom',
         label: __( 'Custom', 'blockify' ),
         description: __( 'Displays a custom text input field.', 'blockify' ),
         placeholder: __( 'Placeholder', 'blockify' ),
@@ -31,6 +33,7 @@ export const fields = [
     {
         name: 'first_name',
         type: 'text',
+        slug: 'first-name',
         label: __( 'First name', 'blockify' ),
         description: __( 'Displays a first name input field.', 'blockify' ),
         placeholder: __( 'First name', 'blockify' ),
@@ -39,6 +42,7 @@ export const fields = [
     {
         name: 'last_name',
         type: 'text',
+        slug: 'last-name',
         label: __( 'Last name', 'blockify' ),
         description: __( 'Displays a last name input field.', 'blockify' ),
         placeholder: __( 'Last name', 'blockify' ),
@@ -47,6 +51,7 @@ export const fields = [
     {
         name: 'user_email',
         type: 'email',
+        slug: 'email',
         label: __( 'Email', 'blockify' ),
         description: __( 'Displays an email input field.', 'blockify' ),
         placeholder: __( 'Email address', 'blockify' ),
@@ -60,6 +65,7 @@ export const fields = [
     {
         name: 'user_url',
         type: 'url',
+        slug: 'url',
         label: __( 'URL', 'blockify' ),
         description: __( 'Displays a website URL input field.', 'blockify' ),
         placeholder: __( 'https://example.com/', 'blockify' ),
@@ -72,6 +78,7 @@ export const fields = [
     {
         name: 'user_phone',
         type: 'tel',
+        slug: 'phone',
         label: __( 'Phone', 'blockify' ),
         description: __( 'Displays a phone number input field.', 'blockify' ),
         placeholder: __( '', 'blockify' ),
@@ -85,6 +92,7 @@ export const fields = [
     },
     {
         type: 'number',
+        slug: 'number',
         label: __( 'Number', 'blockify' ),
         description: __( 'Displays a number input field.', 'blockify' ),
         placeholder: __( '', 'blockify' ),
@@ -93,6 +101,7 @@ export const fields = [
     {
         name: 'user_pass',
         type: 'password',
+        slug: 'password',
         label: __( 'Password', 'blockify' ),
         description: __( 'Displays a password input field.', 'blockify' ),
         placeholder: __( '', 'blockify' ),
@@ -105,6 +114,7 @@ export const fields = [
     {
         name: 'description',
         type: 'textarea',
+        slug: 'text-area',
         label: __( 'Text Area', 'blockify' ),
         description: __( 'Displays a custom text area field.', 'blockify' ),
         placeholder: __( 'Leave a message', 'blockify' ),
@@ -149,30 +159,6 @@ const attributes = {
     styles: {
         type: 'object'
     },
-    style: {
-        type: 'object',
-        default: {
-            spacing: {
-                padding: {
-                    top: '1em',
-                    right: '1em',
-                    bottom: '1em',
-                    left: '1em',
-                },
-                blockGap: '1em'
-            },
-            border: {
-                color: 'var(--wp--custom--border--color)',
-                radius: 'var(--wp--custom--border--radius)',
-                style: 'var(--wp--custom--border--style)',
-                width: 'var(--wp--custom--border--width)'
-            },
-            typography: {
-                fontSize: '1em',
-                lineHeight: '1',
-            },
-        }
-    },
     name: {
         type: 'string',
         default: 'input',
@@ -209,13 +195,16 @@ const attributes = {
     icon: {
         type: 'string',
         default: iconMetadata.attributes.svgString.default
+    },
+    width: {
+        type: 'string',
     }
 }
 
 const getInputClass = ( blockProps, field ) => {
     let inputClass = blockProps.className;
 
-    inputClass = inputClass.replace( 'wp-block-blockify-' + field.label.toLowerCase(), ' ' );
+    inputClass = inputClass.replace( 'wp-block-blockify-' + field.slug, ' ' );
     inputClass = inputClass.replace( ' wp-block ', ' ' );
     inputClass = 'blockify-form-input ' + inputClass.replaceAll( '  ', '' );
 
@@ -238,7 +227,8 @@ const Edit = ( props, field ) => {
     const {
               attributes,
               setAttributes
-          }          = props;
+          } = props;
+
     const {
               showLabel,
               showIcon,
@@ -248,13 +238,16 @@ const Edit = ( props, field ) => {
               secondary,
               showSecondary,
               style
-          }          = attributes;
+          } = attributes;
+
     const blockProps = {
         ...useBlockProps(),
         'data-showlabel': showLabel,
         'data-showicon': showIcon,
         'data-required': isRequired
     };
+
+    const [ width, setWidth ] = useState( attributes.width );
 
     let { icons } = useSelect( select => {
         return {
@@ -330,6 +323,7 @@ const Edit = ( props, field ) => {
                     marginRight: style?.spacing?.margin?.right,
                     marginBottom: style?.spacing?.margin?.bottom,
                     marginLeft: style?.spacing?.margin?.left,
+                    width: attributes?.width
                 } }
             >
                 { showLabel &&
@@ -406,7 +400,7 @@ const Save = ( props, field ) => {
         tagName: 'textarea' === field.type ? 'textarea' : 'input',
         type: field.type,
         name: field?.label,
-        placeholder: placeholder.replace(/<\/?[^>]+(>|$)/g, ""),
+        placeholder: placeholder.replace( /<\/?[^>]+(>|$)/g, "" ),
     };
 
     if ( attributes?.minHeight ) {
@@ -425,7 +419,8 @@ const Save = ( props, field ) => {
                     marginTop: style?.spacing?.margin?.top,
                     marginRight: style?.spacing?.margin?.right,
                     marginBottom: style?.spacing?.margin?.bottom,
-                    marginLeft: style?.spacing?.margin?.left
+                    marginLeft: style?.spacing?.margin?.left,
+                    width: attributes?.width
                 } }
             >
                 { attributes?.showLabel &&
@@ -440,7 +435,7 @@ const Save = ( props, field ) => {
                 <RichText.Content
                     { ...blockProps }
                     tagName={ 'textarea' === field?.type ? 'textarea' : 'input' }
-                    className={ 'blockify-form-input wp-block-blockify-' + field.label.toLowerCase() }
+                    className={ 'blockify-form-input wp-block-blockify-' + field.slug }
                     style={ getInputStyle( blockProps.style ) }
                     name={ field.name }
                 />
@@ -460,13 +455,13 @@ const Save = ( props, field ) => {
 
 fields.forEach( field => {
     return (
-        registerBlockType( 'blockify/' + field.label.replace( ' ', '-' ).toLowerCase(), {
+        registerBlockType( 'blockify/' + field.slug, {
             apiVersion: 2,
             title: field.label,
             description: field.description,
             icon: field.icon,
             category: 'blockify-form',
-            parent: [ 'blockify/form' ],
+            parent: [ 'blockify/form', 'core/columns', 'core/column', 'core/paragraph' ],
             keywords: field?.keywords ? [
                 ...defaultKeywords,
                 ...field.keywords

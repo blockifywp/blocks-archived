@@ -59,5 +59,6 @@
     "editorScript": "file:index.tsx",
     "editorStyle": "file:editor.scss",
     "style": "file:style.scss",
-    "script": "file:script.tsx"
+    "script": "file:script.tsx",
+    "viewScript": "file:view.tsx"
 }
