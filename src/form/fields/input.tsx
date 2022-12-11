@@ -13,7 +13,7 @@ import {
 } from '@wordpress/block-editor';
 import { button } from '@wordpress/icons';
 import { useState } from '@wordpress/element';
-import iconMetadata from '../../../blocks/icon/block.json';
+import iconMetadata from '../../icon/block.json';
 import parse from "html-react-parser";
 
 const toKebabCase = string => {

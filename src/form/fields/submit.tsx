@@ -12,7 +12,7 @@ import {
     useBlockProps
 } from '@wordpress/block-editor';
 import { useState } from '@wordpress/element';
-import WidthControl from "../../../components/width-control";
+import WidthControl from "../width-control";
 
 const recaptchaSiteKey = window?.['blockify']?.['googleRecaptcha'] ?? null;
 
