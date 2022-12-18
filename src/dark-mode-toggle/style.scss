@@ -1,0 +1,39 @@
+$gap: 0.2em;
+$transition: all 0.3s ease-in-out;
+
+.wp-block-blockify-dark-mode-toggle {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	line-height: 1;
+	font-size: 1em;
+	gap: calc(#{$gap} / 2);
+	padding: $gap;
+	background: var(--wp--preset--color--foreground);
+	color: var(--wp--preset--color--background);
+	transition: $transition;
+	border: 0;
+	border-radius: 99px;
+
+	&__switch {
+		position: absolute;
+		top: $gap;
+		left: $gap;
+		background: currentColor;
+		height: 1em;
+		width: 1em;
+		border-radius: 10em;
+		letter-spacing: -1em;
+		overflow: hidden;
+		pointer-events: none;
+		transition: left 0.3s ease;
+
+		body.is-style-dark & {
+			left: calc(100% - 1em - #{$gap});
+		}
+	}
+
+	svg {
+		padding: 0.1em;
+	}
+}
